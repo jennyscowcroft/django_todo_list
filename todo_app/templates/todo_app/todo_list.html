@@ -1,0 +1,50 @@
+<!-- todo_list/todo_app/templates/todo_app/todo_list.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <div>
+        <div>
+            <h3 class="px-4" >Edit list:</h3>
+            <h5 class="px-4">{{ todo_list.title | upper }}</h5>
+        </div>
+        <ul>
+            {% for todo in object_list %}
+            <li>
+                <div>
+                    <div
+                        role="button"
+                        onclick="location.href='{% url "item-update" todo_list.id todo.id %}'"
+                        class="{% if todo.is_overdue %}link-danger{% else %}link-primary{% endif %}">
+                    {% if not todo.completed %}
+                        {{ todo.title }}
+                    (Due {{ todo.due_date | date:"l, F j" }})
+                    {% else %}
+                        <del>{{ todo.title }}</del>
+                        <del>(Due {{ todo.due_date | date:"l, F j" }})</del>
+                    {% endif %}
+                    {% if todo.is_overdue %}
+                       - Overdue
+                    {% endif %}
+                    </div>
+                </div>
+            </li>
+            {% empty %}
+            <p>There are no to-do items in this list.</p>
+            {% endfor %}
+        </ul>
+        <p class="px-4">
+            <input
+                value="Add a new item"
+                type="button"
+                class="btn btn-primary"
+                onclick="location.href='{% url "item-add" todo_list.id %}'" />
+            <input
+                value="Delete this list"
+                type="button"
+                class="btn btn-danger"
+                onclick="location.href='{% url "list-delete" todo_list.id %}'" />
+        </p>
+    </div>
+</div>
+{% endblock %}
