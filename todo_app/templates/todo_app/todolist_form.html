@@ -2,11 +2,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h3 class="px-4">{{ title }}</h3>
-<div>
-    <div>
-        <form method="post" class="px-4">
+<div class="card w-50 mx-auto border-primary">
+    <div class="card-header text-center">
+        <h3>{{ title }}</h3>
+    </div>
+        <form method="post" class="p-4 text-center">
             {% csrf_token %}
             {{ form.as_p }}
             <input
@@ -19,7 +19,6 @@
                 class="btn btn-danger"
                 onclick="location.href='{% url "index" %}';">
         </form>
-    </div>
 </div>
 
 {% endblock %}

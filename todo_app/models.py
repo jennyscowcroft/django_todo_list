@@ -1,5 +1,6 @@
 # todo_list/todo_app/models.py
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 from django.db import models
 from django.urls import reverse
@@ -11,7 +12,8 @@ def in_one_week():
 
 
 class ToDoList(models.Model):
-    title = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse("list", args=[self.id])
@@ -22,6 +24,7 @@ class ToDoList(models.Model):
 
 class ToDoItem(models.Model):
     title = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField(default=in_one_week)

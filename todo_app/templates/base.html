@@ -15,10 +15,30 @@
 </head>
 
 <body>
-    <div>
-        <h1 class="display-5 px-4" onclick="location.href='{% url "index" %}'">
-            To-do Lists
-        </h1>
+    <div class="row m-3">
+        <div class="col-lg-10">
+            <!--Show username at the top of the screen-->
+            <p>Logged in as
+                {% if request.user.is_authenticated %}
+                    {{request.user}}
+                {% endif %}
+            </p>
+        </div>
+        <!--Home and log-out buttons-->
+        <div class="col-lg-1" align="right">
+            <a type="button"
+               class ="btn btn-primary"
+               href='{% url "index" %}'>
+                <i class="fa-solid fa-house"></i>
+            </a>
+        </div>
+        <div class="col-lg-1" align="right">
+            <a type="button"
+               class ="btn btn-danger"
+               href='{% url "logout" %}'>
+                Log out
+            </a>
+        </div>
     </div>
     <div>
         {% block content %}
@@ -26,5 +46,4 @@
         {% endblock %}
     </div>
 </body>
-
 </html>

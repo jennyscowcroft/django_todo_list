@@ -5,46 +5,75 @@
 <div>
     <div>
         <div>
-            <h3 class="px-4" >Edit list:</h3>
-            <h5 class="px-4">{{ todo_list.title | upper }}</h5>
+            <h4 class="px-4 text-center">{{ todo_list.title }}</h4>
         </div>
-        <ul>
+        <div class="container w-75 vertical-center">
+        <table class="table table-striped table-info table-hover">
+
+            <tr>
+                <th>Task</th>
+                <th>Completed</th>
+                <th>Due</th>
+                <th></th>
+            </tr>
+<!--Loop through to-do items in list and add as row in table-->
             {% for todo in object_list %}
-            <li>
-                <div>
-                    <div
-                        role="button"
-                        onclick="location.href='{% url "item-update" todo_list.id todo.id %}'"
-                        class="{% if todo.is_overdue %}link-danger{% else %}link-primary{% endif %}">
+            <tr>
+                <td>
+                    {{todo.title}}
+                </td>
+                <!--Check completion status and mark column with a tick or a cross-->
+                <td>
                     {% if not todo.completed %}
-                        {{ todo.title }}
-                    (Due {{ todo.due_date | date:"l, F j" }})
+                        <i class="fa-solid fa-x"></i>
                     {% else %}
-                        <del>{{ todo.title }}</del>
-                        <del>(Due {{ todo.due_date | date:"l, F j" }})</del>
+                        <i class="fa-solid fa-check"></i>
                     {% endif %}
-                    {% if todo.is_overdue %}
+                </td>
+                <!--Format and display item due date. Add overdue text if the current time is past the due date-->
+                <td>
+                    {{ todo.due_date | date:"l, F j" }}
+                    {% if todo.is_overdue and not todo.completed %}
                        - Overdue
                     {% endif %}
-                    </div>
-                </div>
-            </li>
+                </td>
+                <!--Update item button-->
+                <td align="right">
+                    <a
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="location.href='{% url "item-update" todo_list.id todo.id %}'" >
+                        <i class="fa-solid fa-pen"></i>
+                    </a>
+                </td>
+            </tr>
+            <!--If there are no to-do items in the list-->
             {% empty %}
-            <p>There are no to-do items in this list.</p>
+            <tr>
+                <p>There are no to-do items in this list.</p>
+            </tr>
             {% endfor %}
-        </ul>
-        <p class="px-4">
-            <input
-                value="Add a new item"
-                type="button"
-                class="btn btn-primary"
-                onclick="location.href='{% url "item-add" todo_list.id %}'" />
-            <input
-                value="Delete this list"
-                type="button"
-                class="btn btn-danger"
-                onclick="location.href='{% url "list-delete" todo_list.id %}'" />
-        </p>
+            <!--Buttons to add item or delete list-->
+            <tr>
+                <td>
+                    <input
+                        value="Add a new item"
+                        type="button"
+                        class="btn btn-primary mx-3"
+                        onclick="location.href='{% url "item-add" todo_list.id %}'" />
+                    <input
+                        value="Delete this list"
+                        type="button"
+                        class="btn btn-danger"
+                        onclick="location.href='{% url "list-delete" todo_list.id %}'" />
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        </div>
+
     </div>
 </div>
 {% endblock %}
