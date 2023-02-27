@@ -1,4 +1,4 @@
-To do app using Django and Bootstrap
+To do app using Django and Bootstrap with user registration.
 Create, read, update and delete to do lists and items.
 Indicate if item is overdue.
 Indicate if item is completed.
